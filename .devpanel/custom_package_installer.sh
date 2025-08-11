@@ -34,19 +34,19 @@ if [[ -f "$APP_ROOT/composer.json" ]]; then
   cd $APP_ROOT && composer install;
 fi
 
-# Run shopware install
-echo '> Install shopware package';
-echo '> bin/console system:install --basic-setup --create-database --force';
-cd $APP_ROOT
-#sudo bin/console system:install --basic-setup --create-database --force
-sudo bin/console system:install --basic-setup
-sudo chown -R www:www public/ vendor/ var/
+# # Run shopware install
+# echo '> Install shopware package';
+# echo '> bin/console system:install --basic-setup --create-database --force';
+# cd $APP_ROOT
+# sudo bin/console system:install --basic-setup --create-database --force
+# #sudo bin/console system:install --basic-setup
+# sudo chown -R www:www public/ vendor/ var/
 
-# Install profiler and other dev tools, eg Faker for demo data generation
-composer require --dev shopware/dev-tools
+# # Install profiler and other dev tools, eg Faker for demo data generation
+# composer require --dev shopware/dev-tools
 
-bin/build-administration.sh
-bin/build-storefront.sh
-bin/console assets:install --force
+# bin/build-administration.sh
+# bin/build-storefront.sh
+# bin/console assets:install --force
 
 #APP_ENV=prod bin/console framework:demodata && APP_ENV=prod bin/console dal:refresh:index

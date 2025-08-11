@@ -15,6 +15,22 @@
 # For GNU Affero General Public License see <https://www.gnu.org/licenses/>.
 # ----------------------------------------------------------------------
 
+# Run shopware install
+echo "Connection string: mysql://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}"
+echo '> Install shopware package';
+echo '> bin/console system:install --basic-setup --create-database --force';
+cd $APP_ROOT
+sudo bin/console system:install --basic-setup --create-database --force
+#sudo bin/console system:install --basic-setup
+sudo chown -R www:www public/ vendor/ var/
+
+# Install profiler and other dev tools, eg Faker for demo data generation
+composer require --dev shopware/dev-tools
+
+bin/build-administration.sh
+bin/build-storefront.sh
+bin/console assets:install --force
+
 echo "Import database"
 cd $APP_ROOT
 mysql -h "$DB_HOST" -u "$DB_USER" -p"$DB_PASSWORD" "$DB_NAME" < ".devpanel/dumps/shopware.sql"
