@@ -21,8 +21,8 @@ echo '> Install shopware package';
 echo '> bin/console system:install --basic-setup --create-database --force';
 cd $APP_ROOT
 #sudo bin/console system:install --basic-setup --create-database --force
-sudo bin/console system:install --basic-setup
-sudo chown -R www:www public/ vendor/ var/
+sudo bin/console system:install --basic-setup --create-database
+#sudo chown -R www:www public/ vendor/ var/
 
 # Install profiler and other dev tools, eg Faker for demo data generation
 composer require --dev shopware/dev-tools
