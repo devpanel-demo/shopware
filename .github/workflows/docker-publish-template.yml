@@ -60,7 +60,7 @@ jobs:
           docker exec ${{ job.services.webserver.id }} bash -c "sudo cp -r /app/. \$APP_ROOT/."
           echo "INSTALL CUSTOM PACKAGE"
           docker exec ${{ job.services.webserver.id }} bash -c "cd \$APP_ROOT && bash .devpanel/custom_package_installer.sh"
-          # echo "INSTALL DRUPAL"
+          # echo "INSTALL SHOPWARE"
           # docker exec ${{ job.services.webserver.id }} bash -c "cd \$APP_ROOT && bash .devpanel/init.sh"
           # docker exec ${{ job.services.webserver.id }} bash -c "cd \$APP_ROOT && ls -al"
 
