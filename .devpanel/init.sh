@@ -17,6 +17,17 @@
 
 # Run shopware install
 echo "Connection string: mysql://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}"
+
+# Wait for MySQL to be ready
+until mysqladmin ping -h"$DB_HOST" -u"$DB_USER" -p"$DB_PASSWORD" --silent; do
+  echo "Waiting for MySQL..."
+  sleep 2
+done
+
+# Create DB if not exists
+echo "Ensuring database '${DB_NAME}' exists..."
+mysql -h "$DB_HOST" -u "$DB_USER" -p"$DB_PASSWORD" -e "CREATE DATABASE IF NOT EXISTS \`${DB_NAME}\`;"
+
 echo '> Install shopware package';
 echo '> bin/console system:install --basic-setup --create-database --force';
 cd $APP_ROOT
