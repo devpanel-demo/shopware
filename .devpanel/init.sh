@@ -19,7 +19,7 @@
 CONNECT_STRING="${DB_DRIVER}://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}"
 
 # Replace the placeholder in .env.local
-sed -i "s|APP_URL={app_url}|APP_URL=${DP_HOSTNAME}|" $APP_ROOT/.env.local
+sed -i "s|APP_URL=localhost:9999|APP_URL=${DP_HOSTNAME}|" $APP_ROOT/.env.local
 sed -i "s|DATABASE_URL={connect_string}|DATABASE_URL=\"${CONNECT_STRING}\"|" $APP_ROOT/.env.local
 
 echo '> Install shopware package';
