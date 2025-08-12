@@ -16,24 +16,16 @@
 # ----------------------------------------------------------------------
 
 # Run shopware install
-echo "Connection string: mysql://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}"
+# Build the connection string
+CONNECT_STRING="${DB_DRIVER}://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}"
 
-# Wait for MySQL to be ready
-# until mysqladmin ping -h"$DB_HOST" -u"$DB_USER" -p"$DB_PASSWORD" --silent; do
-#   echo "Waiting for MySQL..."
-#   sleep 2
-# done
-
-# Create DB if not exists
-# echo "Ensuring database '${DB_NAME}' exists..."
-# mysql -h "$DB_HOST" -u "$DB_USER" -p"$DB_PASSWORD" -e "CREATE DATABASE IF NOT EXISTS \`${DB_NAME}\`;"
+# Replace the placeholder in .env.local
+sed -i "s|DATABASE_URL={connect_string}|DATABASE_URL=${CONNECT_STRING}|" $APP_ROOT/.env.local
 
 echo '> Install shopware package';
-echo '> bin/console system:install --basic-setup --create-database --force';
 cd $APP_ROOT
 #sudo bin/console system:install --basic-setup --create-database --force
-sudo bin/console system:install --basic-setup --create-database --force
-#sudo chown -R www:www public/ vendor/ var/
+sudo bin/console system:install --basic-setup
 
 # Allow composer plugin without prompt
 composer config --no-plugins allow-plugins.php-http/discovery true
