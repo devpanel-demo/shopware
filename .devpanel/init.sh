@@ -39,7 +39,10 @@ sudo bin/console system:install --basic-setup --create-database --force
 composer config --no-plugins allow-plugins.php-http/discovery true
 
 # Install profiler and other dev tools, eg Faker for demo data generation
-composer require --dev shopware/dev-tools --no-interaction
+#composer require --dev shopware/dev-tools --no-interaction
+
+# Install profiler and other dev tools, eg Faker for demo data generation
+composer require --dev shopware/dev-tools
 
 bin/build-administration.sh
 bin/build-storefront.sh
