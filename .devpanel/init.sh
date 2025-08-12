@@ -35,8 +35,11 @@ cd $APP_ROOT
 sudo bin/console system:install --basic-setup --create-database --force
 #sudo chown -R www:www public/ vendor/ var/
 
+# Allow composer plugin without prompt
+composer config --no-plugins allow-plugins.php-http/discovery true
+
 # Install profiler and other dev tools, eg Faker for demo data generation
-composer require --dev shopware/dev-tools
+composer require --dev shopware/dev-tools --no-interaction
 
 bin/build-administration.sh
 bin/build-storefront.sh
