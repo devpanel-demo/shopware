@@ -27,17 +27,20 @@ cd $APP_ROOT
 sudo bin/console system:install --basic-setup
 
 # Allow composer plugin without prompt
+echo '> allow-plugins'
 composer config --no-plugins allow-plugins.php-http/discovery true
 
 # Install profiler and other dev tools, eg Faker for demo data generation
+echo '> Install dev-tools'
 composer require --dev shopware/dev-tools
 
+echo '> Build admin, storefront'
 bin/build-administration.sh
 bin/build-storefront.sh
 #bin/console assets:install --force
 bin/console assets:install
 
-echo "Import database"
+echo "> Import database"
 cd $APP_ROOT
 APP_ENV=prod bin/console framework:demodata && APP_ENV=prod bin/console dal:refresh:index
 #mysql -h "$DB_HOST" -u "$DB_USER" -p"$DB_PASSWORD" "$DB_NAME" < ".devpanel/dumps/shopware.sql"
