@@ -27,6 +27,12 @@ jobs:
           DB_USER: user
           DB_PASSWORD: password
           DB_DRIVER: mysql
+          DATABASE_URL: mysql://user:password@mysql:3306/shopware
+          APP_URL: http://127.0.0.1
+          APP_SECRET: b6d42ce2282dae90f5441cb6b474acd2
+          INSTANCE_ID: dec7e81235cc97897b661da7e0c83c58
+          BLUE_GREEN_DEPLOYMENT: 0
+          COMPOSER_HOME: /var/www/html/var/cache/composer
         ports:
           - 80:80
         volumes:

@@ -15,13 +15,6 @@
 # For GNU Affero General Public License see <https://www.gnu.org/licenses/>.
 # ----------------------------------------------------------------------
 
-# Update .env.local file
-CONNECT_STRING="${DB_DRIVER}://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}"
-
-# Replace the placeholder in .env.local
-#sed -i "s|APP_URL=http://127.0.0.1:8000|APP_URL=${DP_HOSTNAME}|" $APP_ROOT/.env.local
-sed -i "s|DATABASE_URL={connect_string}|DATABASE_URL=\"${CONNECT_STRING}\"|" $APP_ROOT/.env.local
-
 echo '> Install shopware package';
 cd $APP_ROOT
 sudo bin/console system:install --basic-setup
@@ -43,4 +36,3 @@ bin/console assets:install
 echo "> Import database"
 cd $APP_ROOT
 APP_ENV=prod bin/console framework:demodata && APP_ENV=prod bin/console dal:refresh:index
-#mysql -h "$DB_HOST" -u "$DB_USER" -p"$DB_PASSWORD" "$DB_NAME" < ".devpanel/dumps/shopware.sql"
