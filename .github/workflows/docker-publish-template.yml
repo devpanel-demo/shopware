@@ -62,6 +62,7 @@ jobs:
       - name: Setup Shopware
         run: |
           echo "PREPARE DIR FOR INSTALL"
+          docker exec ${{ job.services.webserver.id }} bash -c "whoami"
           docker exec ${{ job.services.webserver.id }} bash -c "sudo rm -rf \$APP_ROOT && sudo mkdir -p \$APP_ROOT"
           docker exec ${{ job.services.webserver.id }} bash -c "sudo cp -r /app/. \$APP_ROOT/."
           echo "INSTALL CUSTOM PACKAGE"
