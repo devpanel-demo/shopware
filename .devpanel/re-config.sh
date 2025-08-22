@@ -16,44 +16,35 @@
 # ----------------------------------------------------------------------
 
 #== If webRoot has not been difined, we will set appRoot to webRoot
+
+if [[ ! -n "$APACHE_RUN_USER" ]]; then
+  export APACHE_RUN_USER=www-data
+fi
+if [[ ! -n "$APACHE_RUN_GROUP" ]]; then
+  export APACHE_RUN_GROUP=www-data
+fi
+
+#== If webRoot has not been defined, we will set appRoot to webRoot
 if [[ ! -n "$WEB_ROOT" ]]; then
   export WEB_ROOT=$APP_ROOT
 fi
 
-STATIC_FILES_PATH="$WEB_ROOT/sites/default/files/"
-SETTINGS_FILES_PATH="$WEB_ROOT/sites/default/settings.php"
+cd $APP_ROOT
+cp -r $APP_ROOT/.devpanel/.gitignore $APP_ROOT/.gitignore
 
-#Create static directory
-if [ ! -d "$STATIC_FILES_PATH" ]; then
-  mkdir -p $STATIC_FILES_PATH
-fi
+echo ">>> Install Dependencies";
+composer install --no-interaction --optimize-autoloader
 
-#== Composer install.
-if [[ -f "$APP_ROOT/composer.json" ]]; then
-  cd $APP_ROOT && composer install
-fi
+echo ">>> Install Shopware Application";
+bin/console system:install --basic-setup --force
 
-#== Generate hash salt
-echo 'Generate hash salt ...'
-DRUPAL_HASH_SALT=$(openssl rand -hex 32);
-echo $DRUPAL_HASH_SALT > $APP_ROOT/.devpanel/salt.txt
+echo ">>> Add Devpanel Admin User";
+bin/console user:create devpanel --password=devpanel --email=developer@devpanel.com --firstName=DevPanel 
 
-# Securing file permissions and ownership
-# https://www.drupal.org/docs/security-in-drupal/securing-file-permissions-and-ownership
-[[ ! -d $STATIC_FILES_PATH ]] && sudo mkdir --mode 775 $STATIC_FILES_PATH || sudo chmod 775 -R $STATIC_FILES_PATH
+echo ">>> allow-plugins";
+composer config --no-plugins allow-plugins.php-http/discovery true
 
-#== Extract static files
-if [[ $(mysql -h$DB_HOST -P$DB_PORT -u$DB_USER -p$DB_PASSWORD $DB_NAME -e "show tables;") == '' ]]; then
-  if [[ -f "$APP_ROOT/.devpanel/dumps/files.tgz" ]]; then
-    echo 'Extract static files ...'
-    sudo mkdir -p $STATIC_FILES_PATH
-    sudo tar xzf "$APP_ROOT/.devpanel/dumps/files.tgz" -C $STATIC_FILES_PATH
-    sudo rm -rf $APP_ROOT/.devpanel/dumps/files.tgz
-  fi
-
-  #== Import mysql files
-  if [[ -f "$APP_ROOT/.devpanel/dumps/db.sql.gz" ]]; then
-    echo 'Import mysql file ...'
-    drush sqlq --file="$APP_ROOT/.devpanel/dumps/db.sql.gz" --file-delete
-  fi
-fi
+# echo ">>> Install dev-tools";
+# composer require --dev shopware/dev-tools
+# bin/console cache:clear
+echo ">>> Successful, please refresh your web page.";

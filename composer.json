@@ -5,10 +5,9 @@
     "require": {
         "composer-runtime-api": "^2.0",
         "shopware/administration": "*",
-        "shopware/core": "v6.7.1.2",
+        "shopware/core": "~v6.7.0",
         "shopware/elasticsearch": "*",
         "shopware/storefront": "*",
-        "swag/paypal": "10.1.0",
         "symfony/flex": "~2"
     },
     "repositories": [
@@ -50,9 +49,7 @@
         "sort-packages": true
     },
     "scripts": {
-        "auto-scripts": {
-            "assets:install": "symfony-cmd"
-        },
+        "auto-scripts": [],
         "post-install-cmd": [
             "@auto-scripts"
         ],
@@ -68,8 +65,5 @@
                 "flex://defaults"
             ]
         }
-    },
-    "require-dev": {
-        "shopware/dev-tools": "^1.5"
     }
 }

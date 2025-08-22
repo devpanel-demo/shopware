@@ -4,7 +4,6 @@ on:
     branches:
       - main
       - develop
-      - test/*
 jobs:
   build-application:
     runs-on: ubuntu-latest
@@ -28,11 +27,12 @@ jobs:
           DB_PASSWORD: password
           DB_DRIVER: mysql
           DATABASE_URL: mysql://user:password@mysql:3306/shopware
-          APP_URL: http://127.0.0.1
+          APP_URL: http://localhost
           APP_SECRET: b6d42ce2282dae90f5441cb6b474acd2
           INSTANCE_ID: dec7e81235cc97897b661da7e0c83c58
           BLUE_GREEN_DEPLOYMENT: 0
           COMPOSER_HOME: /var/www/html/var/cache/composer
+          APP_ENV: dev
         ports:
           - 80:80
         volumes:
@@ -69,6 +69,8 @@ jobs:
           echo "INSTALL SHOPWARE"
           docker exec ${{ job.services.webserver.id }} bash -c "cd \$APP_ROOT && bash .devpanel/init.sh"
           docker exec ${{ job.services.webserver.id }} bash -c "cd \$APP_ROOT && ls -al"
+          echo "DUMPS DATABASE + STATIC FILE"
+          docker exec ${{ job.services.webserver.id }} bash -c "cd \$APP_ROOT && bash .devpanel/create_quickstart.sh" 
 
       - name: Login to Docker Hub
         uses: docker/login-action@v2

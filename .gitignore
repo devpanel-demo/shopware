@@ -1,25 +1,47 @@
-/.idea
+# Composer dependencies
 /vendor/
 
-###> shopware/core ###
-#.env.local
-#.env.local.php
-#.env.*.local
-/public/bundles/*
-/public/media/*
-/public/theme/*
-/public/thumbnail/*
-/public/sitemap/*
-/files/*
-!/files/.htaccess
-/var/*
-!/var/.htaccess
-/auth.json
-/install.lock
-public/asset-manifest.json
-###< shopware/core ###
+# Symfony cache & logs
+/var/cache/
+/var/logs/
+/var/log/
+/var/tmp/
 
-###> phpunit/phpunit ###
-/phpunit.xml
-/.phpunit.cache/
-###< phpunit/phpunit ###
+# Shopware generated files
+/public/bundles/
+/public/media/
+/public/thumbnail/
+/public/files/
+/public/sitemap/
+/public/theme/
+/public/css/
+/public/js/
+/public/fonts/
+
+# Environment & secrets
+.env
+.env.local
+.env.*.local
+.env.test
+.env.test.local
+
+# Node.js (nếu dùng development tools)
+/node_modules/
+/npm-debug.log
+/yarn-error.log
+
+# IDE & OS files
+/.idea/
+/.vscode/
+/*.swp
+.DS_Store
+Thumbs.db
+
+# Build artifacts
+/build/
+dist/
+coverage/
+
+# Shopware specific
+/config/jwt/private.pem
+/config/jwt/public.pem

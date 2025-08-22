@@ -24,13 +24,16 @@ echo -e "-------------------------------\n"
 WORK_DIR=$APP_ROOT
 TMP_DIR=/tmp/devpanel/quickstart
 DUMPS_DIR=$TMP_DIR/dumps
-STATIC_FILES_DIR=$WEB_ROOT/sites/default/files
-
 mkdir -p $DUMPS_DIR
 
 # Step 1 - Compress drupal database
 cd $WORK_DIR
-echo -e "> Export database to $APP_ROOT/.devpanel/dumps"
+echo -e "> Export database"
+mysqldump  -h$DB_HOST -u$DB_USER -p$DB_PASSWORD $DB_NAME  > $TMP_DIR/$DB_NAME.sql --no-tablespaces
+
+echo -e "> Compress database"
+tar czf $DUMPS_DIR/db.sql.tgz -C $TMP_DIR $DB_NAME.sql
+
+echo -e "> Store database to $APP_ROOT/.devpanel/dumps"
 mkdir -p $APP_ROOT/.devpanel/dumps
-drush cr --quiet
-drush sql-dump --result-file=../.devpanel/dumps/db.sql --gzip --extra-dump=--no-tablespaces
+mv $DUMPS_DIR/db.sql.tgz $APP_ROOT/.devpanel/dumps/db.sql.tgz
