@@ -21,7 +21,7 @@ if [[ $(mysql -h$DB_HOST -P$DB_PORT -u$DB_USER -p$DB_PASSWORD $DB_NAME -e "show 
     echo  'Import mysql file ...'
     cd $APP_ROOT/.devpanel/dumps
     tar -xvzf db.sql.tgz
-    mysql -h$DB_HOST -P$DB_PORT -u$DB_USER -p$DB_PASSWORD $DB_NAME < shopware.sql
+    mysql -h$DB_HOST -P$DB_PORT -u$DB_USER -p$DB_PASSWORD $DB_NAME < db.sql
     rm -rf $APP_ROOT/.devpanel/dumps/*
   fi
 fi
