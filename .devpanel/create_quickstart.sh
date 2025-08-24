@@ -31,5 +31,6 @@ echo -e "> Export database"
 mysqldump  -h$DB_HOST -u$DB_USER -p$DB_PASSWORD $DB_NAME  > $DUMPS_DIR/db.sql --no-tablespaces
 
 echo -e "> Compress database"
-tar -czf $DUMPS_DIR/db.sql.tgz $DUMPS_DIR/db.sql
-rm -rf $DUMPS_DIR/db.sql
+cd $DUMPS_DIR
+tar -czf db.sql.tgz -C . db.sql
+rm -rf db.sql
