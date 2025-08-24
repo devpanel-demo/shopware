@@ -28,7 +28,7 @@ mkdir -p $DUMPS_DIR
 # Step 1 - Compress drupal database
 cd $WORK_DIR
 echo -e "> Export database"
-mysqldump  -h$DB_HOST -u$DB_USER -p$DB_PASSWORD $DB_NAME  > $DUMPS_DIR/db.sql --no-tablespaces
+mysqldump  -h$DB_HOST -u$DB_USER -p$DB_PASSWORD $DB_NAME  > $DUMPS_DIR/db.sql --skip-generated-columns --no-tablespaces
 du -h $DUMPS_DIR/db.sql
 
 echo -e "> Compress database"
