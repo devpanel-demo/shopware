@@ -29,6 +29,7 @@ mkdir -p $DUMPS_DIR
 cd $WORK_DIR
 echo -e "> Export database"
 mysqldump  -h$DB_HOST -u$DB_USER -p$DB_PASSWORD $DB_NAME  > $DUMPS_DIR/db.sql --no-tablespaces
+du -h $DUMPS_DIR/db.sql
 
 echo -e "> Compress database"
 cd $DUMPS_DIR

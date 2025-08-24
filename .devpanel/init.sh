@@ -39,6 +39,10 @@ bin/console system:install --basic-setup --force
 echo ">>> Add Devpanel Admin User";
 bin/console user:create devpanel --password=devpanel --email=developer@devpanel.com --firstName=DevPanel 
 
+echo ">>> Test Dump";
+mysqldump  -h$DB_HOST -u$DB_USER -p$DB_PASSWORD $DB_NAME  > db.sql --no-tablespaces
+du -h db.sql
+
 echo ">>> allow-plugins";
 composer config --no-plugins allow-plugins.php-http/discovery true
 
