@@ -11,7 +11,7 @@ If you want to use a specific version of Shopware, you can specify the version i
 ```bash
 composer create-project shopware/production:6.6.0.0 <project-name>
 ```
-
+#
 Please refer to the
 [documentation](https://developer.shopware.com/docs/guides/installation/template)
 for instructions on how to use this template.
