@@ -53,6 +53,8 @@ SELECT id, user_id, media_folder_id, mime_type, file_extension,
        private, uploaded_at, created_at, updated_at, path, config
 FROM media;
 "
+echo "media_nohash data"
+mysql -h$DB_HOST -P$DB_PORT -u$DB_USER -p$DB_PASSWORD $DB_NAME -e "select * from media_nohash;"
 # Dump that view instead of the raw table
 mysqldump -h$DB_HOST -P$DB_PORT -u$DB_USER -p$DB_PASSWORD \
   --skip-triggers --no-create-info \
