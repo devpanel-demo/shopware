@@ -66,7 +66,7 @@ cat $DUMPS_DIR/media_nohash_data.sql
 
 # Replace ALL mentions of media_tmp with media
 sed -i 's/`media_tmp`/`media`/g' $DUMPS_DIR/media_nohash_data.sql
-# sed -i 's/INSERT INTO `media`/INSERT INTO `media` (`id`, `user_id`, `media_folder_id`, `mime_type`, `file_extension`, `file_size`, `meta_data`, `file_name`, `media_type`, `thumbnails_ro`, `private`, `uploaded_at`, `created_at`, `updated_at`, `path`, `config`)/g' $DUMPS_DIR/media_nohash_data.sql
+sed -i 's/INSERT INTO `media`/INSERT INTO `media` (`id`, `user_id`, `media_folder_id`, `mime_type`, `file_extension`, `file_size`, `meta_data`, `file_name`, `media_type`, `thumbnails_ro`, `private`, `uploaded_at`, `created_at`, `updated_at`, `path`, `config`)/g' $DUMPS_DIR/media_nohash_data.sql
 echo "media_nohash_data after"
 cat $DUMPS_DIR/media_nohash_data.sql
 cat $DUMPS_DIR/media_nohash_data.sql >> $DUMPS_DIR/db.sql
