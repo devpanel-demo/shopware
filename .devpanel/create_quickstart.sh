@@ -29,6 +29,11 @@ cd $WORK_DIR
 echo -e "> Export database"
 mysqldump  -h$DB_HOST -u$DB_USER -p$DB_PASSWORD --quick --lock-tables=false --ignore-table=$DB_NAME.media $DB_NAME > $DUMPS_DIR/db.sql --no-tablespaces
 sed -i 's/INSERT INTO/INSERT IGNORE INTO/g' $DUMPS_DIR/db.sql
+
+echo "show tables"
+mysql -h$DB_HOST -P$DB_PORT -u$DB_USER -p$DB_PASSWORD $DB_NAME -e "show tables;"
+mysql -h$DB_HOST -P$DB_PORT -u$DB_USER -p$DB_PASSWORD $DB_NAME -e "select * from media;"
+
 # Dump everything except media
 # mysqldump -h$DB_HOST -u$DB_USER -p$DB_PASSWORD \
 #   --quick --lock-tables=false --no-tablespaces \
