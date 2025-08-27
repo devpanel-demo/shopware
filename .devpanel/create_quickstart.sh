@@ -28,6 +28,7 @@ mkdir -p $DUMPS_DIR
 cd $WORK_DIR
 echo -e "> Export database"
 mysqldump  -h$DB_HOST -u$DB_USER -p$DB_PASSWORD --single-transaction --quick --lock-tables=false $DB_NAME > $DUMPS_DIR/db.sql --no-tablespaces
+sed -i 's/INSERT INTO/REPLACE INTO/g' db.sql
 du -h $DUMPS_DIR/db.sql
 
 echo -e "> Compress database"
