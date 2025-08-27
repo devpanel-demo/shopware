@@ -28,7 +28,7 @@ fi
 if [[ ! -n "$WEB_ROOT" ]]; then
   export WEB_ROOT=$APP_ROOT
 fi
-mysql -h$DB_HOST -P$DB_PORT -u$DB_USER -p$DB_PASSWORD $DB_NAME -e "update sales_channel_domain set url='$APP_URL' where url='http://localhost';"
+mysql -h$DB_HOST -P$DB_PORT -u$DB_USER -p$DB_PASSWORD $DB_NAME -e "update sales_channel_domain set url='https://$DP_HOSTNAME' where url='http://localhost';"
 cd $APP_ROOT
 cp -r $APP_ROOT/.devpanel/.gitignore $APP_ROOT/.gitignore
 
