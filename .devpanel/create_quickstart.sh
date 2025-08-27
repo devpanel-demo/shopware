@@ -40,33 +40,33 @@ mysql -h$DB_HOST -P$DB_PORT -u$DB_USER -p$DB_PASSWORD $DB_NAME -e "select * from
 #   --ignore-table=$DB_NAME.media \
 #   $DB_NAME > $DUMPS_DIR/db.sql
 # # Append media structure only (no rows)
-# mysqldump -h$DB_HOST -u$DB_USER -p$DB_PASSWORD \
-#   --quick --lock-tables=false --no-tablespaces \
-#   $DB_NAME media --where="1=0" >> $DUMPS_DIR/db.sql
+mysqldump -h$DB_HOST -u$DB_USER -p$DB_PASSWORD \
+  --quick --lock-tables=false --no-tablespaces \
+  $DB_NAME media --where="1=0" >> $DUMPS_DIR/db.sql
 
-# Create a view without file_hash
+# 1. Create helper table from media
 mysql -h$DB_HOST -P$DB_PORT -u$DB_USER -p$DB_PASSWORD $DB_NAME -e "
-DROP VIEW IF EXISTS media_nohash;
-CREATE VIEW media_nohash AS
+DROP TABLE IF EXISTS media_tmp;
+CREATE TABLE media_tmp AS
 SELECT id, user_id, media_folder_id, mime_type, file_extension,
        file_size, meta_data, file_name, media_type, thumbnails_ro,
        private, uploaded_at, created_at, updated_at, path, config
 FROM media;
 "
 echo "media_nohash data"
-mysql -h$DB_HOST -P$DB_PORT -u$DB_USER -p$DB_PASSWORD $DB_NAME -e "select * from media_nohash;"
-# Dump that view instead of the raw table
+mysql -h$DB_HOST -P$DB_PORT -u$DB_USER -p$DB_PASSWORD $DB_NAME -e "select * from media_tmp;"
+
+# 2. Dump that table's data
 mysqldump -h$DB_HOST -P$DB_PORT -u$DB_USER -p$DB_PASSWORD \
   --skip-triggers --no-create-info \
-  $DB_NAME media_nohash > $DUMPS_DIR/media_nohash_data.sql
+  $DB_NAME media_tmp > $DUMPS_DIR/media_nohash_data.sql
 
-echo "media_nohash_data"
+echo "media_nohash_data before"
 cat $DUMPS_DIR/media_nohash_data.sql
 
-# sed -i 's/INSERT INTO `cms_block`/REPLACE INTO `cms_block`/g' db.sql
-# sed -i 's/INSERT INTO `media`/INSERT INTO `media` (`id`, `user_id`, `media_folder_id`, `mime_type`, `file_extension`, `file_size`, `meta_data`, `file_name`, `media_type`, `thumbnails_ro`, `private`, `uploaded_at`, `created_at`, `updated_at`, `path`, `config`)/g' db.sql
-
-sed -i 's/INSERT INTO `media_nohash`/INSERT INTO `media` (`id`, `user_id`, `media_folder_id`, `mime_type`, `file_extension`, `file_size`, `meta_data`, `file_name`, `media_type`, `thumbnails_ro`, `private`, `uploaded_at`, `created_at`, `updated_at`, `path`, `config`)/g' $DUMPS_DIR/media_nohash_data.sql
+sed -i 's/INSERT INTO `media_tmp`/INSERT INTO `media` (`id`, `user_id`, `media_folder_id`, `mime_type`, `file_extension`, `file_size`, `meta_data`, `file_name`, `media_type`, `thumbnails_ro`, `private`, `uploaded_at`, `created_at`, `updated_at`, `path`, `config`)/g' $DUMPS_DIR/media_nohash_data.sql
+echo "media_nohash_data after"
+cat $DUMPS_DIR/media_nohash_data.sql
 cat $DUMPS_DIR/media_nohash_data.sql >> $DUMPS_DIR/db.sql
 
 du -h $DUMPS_DIR/db.sql
