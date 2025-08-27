@@ -42,6 +42,7 @@ if [[ $(mysql -h$DB_HOST -P$DB_PORT -u$DB_USER -p$DB_PASSWORD $DB_NAME -e "show 
     # echo "✅ Cleaned media inserts written to $OUTPUT"
 
     mysql -h$DB_HOST -P$DB_PORT -u$DB_USER -p$DB_PASSWORD $DB_NAME < db.sql
+    mysql -h$DB_HOST -P$DB_PORT -u$DB_USER -p$DB_PASSWORD $DB_NAME -e "update sales_channel_domain set url='$APP_URL' where url='http://localhost';"
     # rm -rf $APP_ROOT/.devpanel/dumps/*
   fi
 fi
