@@ -27,8 +27,8 @@ mkdir -p $DUMPS_DIR
 # Step 1 - Compress database
 cd $WORK_DIR
 echo -e "> Export database"
-mysqldump  -h$DB_HOST -u$DB_USER -p$DB_PASSWORD --single-transaction --quick --lock-tables=false $DB_NAME > $DUMPS_DIR/db.sql --no-tablespaces
-sed -i 's/INSERT INTO/REPLACE INTO/g' db.sql
+mysqldump  -h$DB_HOST -u$DB_USER -p$DB_PASSWORD --quick --lock-tables=false $DB_NAME > $DUMPS_DIR/db.sql --no-tablespaces
+sed -i 's/INSERT INTO `media`/REPLACE INTO `media` (`id`, `user_id`, `media_folder_id`, `mime_type`, `file_extension`, `file_size`, `meta_data`, `file_name`, `media_type`, `thumbnails_ro`, `private`, `uploaded_at`, `created_at`, `updated_at`, `path`, `config`)/g' db.sql
 du -h $DUMPS_DIR/db.sql
 
 echo -e "> Compress database"
