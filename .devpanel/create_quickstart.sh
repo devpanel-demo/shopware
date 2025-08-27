@@ -53,6 +53,9 @@ mysqldump -h$DB_HOST -P$DB_PORT -u$DB_USER -p$DB_PASSWORD \
   --skip-triggers --no-create-info \
   $DB_NAME media_nohash > $DUMPS_DIR/media_nohash_data.sql
 
+echo "media_nohash_data"
+cat $DUMPS_DIR/media_nohash_data.sql
+
 # sed -i 's/INSERT INTO `cms_block`/REPLACE INTO `cms_block`/g' db.sql
 # sed -i 's/INSERT INTO `media`/INSERT INTO `media` (`id`, `user_id`, `media_folder_id`, `mime_type`, `file_extension`, `file_size`, `meta_data`, `file_name`, `media_type`, `thumbnails_ro`, `private`, `uploaded_at`, `created_at`, `updated_at`, `path`, `config`)/g' db.sql
 
