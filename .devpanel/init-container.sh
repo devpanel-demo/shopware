@@ -22,7 +22,7 @@ if [[ $(mysql -h$DB_HOST -P$DB_PORT -u$DB_USER -p$DB_PASSWORD $DB_NAME -e "show 
     cd $APP_ROOT/.devpanel/dumps
     tar -xvzf db.sql.tgz
     mysql -h$DB_HOST -P$DB_PORT -u$DB_USER -p$DB_PASSWORD $DB_NAME < db.sql
-    rm -rf $APP_ROOT/.devpanel/dumps/*
+    # rm -rf $APP_ROOT/.devpanel/dumps/*
   fi
 fi
 
