@@ -15,22 +15,40 @@
 # For GNU Affero General Public License see <https://www.gnu.org/licenses/>.
 # ----------------------------------------------------------------------
 
+set -e
+
+INPUT="db.sql"
+OUTPUT="db_fixed.sql"
+
 #== Import database
 if [[ $(mysql -h$DB_HOST -P$DB_PORT -u$DB_USER -p$DB_PASSWORD $DB_NAME -e "show tables;") == '' ]]; then
   if [[ -f "$APP_ROOT/.devpanel/dumps/db.sql.tgz" ]]; then
-    echo  'Import mysql file ...'
+    echo 'Import mysql file ...'
     cd $APP_ROOT/.devpanel/dumps
     tar -xvzf db.sql.tgz
     sed -i 's/INSERT INTO `cms_block`/REPLACE INTO `cms_block`/g' db.sql
     sed -i 's/INSERT INTO `media`/INSERT INTO `media` (`id`, `user_id`, `media_folder_id`, `mime_type`, `file_extension`, `file_size`, `meta_data`, `file_name`, `media_type`, `thumbnails_ro`, `private`, `uploaded_at`, `created_at`, `updated_at`, `path`, `config`)/g' db.sql
-    mysql -h$DB_HOST -P$DB_PORT -u$DB_USER -p$DB_PASSWORD $DB_NAME < db.sql
+
+    # Process only INSERT INTO `media` blocks
+    awk '
+    BEGIN { in_media=0 }
+    /^INSERT INTO `media`/ { in_media=1 }
+    in_media && /^\(/ {
+      sub(/,\'[A-Fa-f0-9]{32}\'\)/,")")  # remove last hash column
+    }
+    { print }
+    ' "$INPUT" > "$OUTPUT"
+
+    echo "✅ Cleaned media inserts written to $OUTPUT"
+
+    mysql -h$DB_HOST -P$DB_PORT -u$DB_USER -p$DB_PASSWORD $DB_NAME < "$OUTPUT"
     # rm -rf $APP_ROOT/.devpanel/dumps/*
   fi
 fi
 
 if [[ -n "$DB_SYNC_VOL" ]]; then
   if [[ ! -f "/var/www/build/.devpanel/init-container.sh" ]]; then
-    echo  'Sync volume...'
+    echo 'Sync volume...'
     sudo chown -R 1000:1000 /var/www/build
     rsync -av --delete --delete-excluded $APP_ROOT/ /var/www/build
   fi
