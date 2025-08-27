@@ -64,6 +64,7 @@ mysqldump -h$DB_HOST -P$DB_PORT -u$DB_USER -p$DB_PASSWORD \
 echo "media_nohash_data before"
 cat $DUMPS_DIR/media_nohash_data.sql
 
+sed -i 's/LOCK TABLES `media_tmp` WRITE/LOCK TABLES `media` WRITE/g' $DUMPS_DIR/media_nohash_data.sql
 sed -i 's/INSERT INTO `media_tmp`/INSERT INTO `media` (`id`, `user_id`, `media_folder_id`, `mime_type`, `file_extension`, `file_size`, `meta_data`, `file_name`, `media_type`, `thumbnails_ro`, `private`, `uploaded_at`, `created_at`, `updated_at`, `path`, `config`)/g' $DUMPS_DIR/media_nohash_data.sql
 echo "media_nohash_data after"
 cat $DUMPS_DIR/media_nohash_data.sql
