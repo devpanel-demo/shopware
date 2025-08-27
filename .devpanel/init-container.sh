@@ -21,6 +21,8 @@ if [[ $(mysql -h$DB_HOST -P$DB_PORT -u$DB_USER -p$DB_PASSWORD $DB_NAME -e "show 
     echo  'Import mysql file ...'
     cd $APP_ROOT/.devpanel/dumps
     tar -xvzf db.sql.tgz
+    sed -i 's/INSERT INTO `cms_block`/REPLACE INTO `cms_block`/g' db.sql
+    sed -i 's/INSERT INTO `media`/INSERT INTO `media` (`id`, `user_id`, `media_folder_id`, `mime_type`, `file_extension`, `file_size`, `meta_data`, `file_name`, `media_type`, `thumbnails_ro`, `private`, `uploaded_at`, `created_at`, `updated_at`, `path`, `config`)/g' db.sql
     mysql -h$DB_HOST -P$DB_PORT -u$DB_USER -p$DB_PASSWORD $DB_NAME < db.sql
     # rm -rf $APP_ROOT/.devpanel/dumps/*
   fi
