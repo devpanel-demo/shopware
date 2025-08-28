@@ -42,7 +42,5 @@ bin/console user:create devpanel --password=devpanel --email=developer@devpanel.
 echo ">>> allow-plugins";
 composer config --no-plugins allow-plugins.php-http/discovery true
 
-# echo ">>> Install dev-tools";
-# composer require --dev shopware/dev-tools
-# bin/console cache:clear
+bin/console cache:clear
 echo ">>> Successful, please refresh your web page.";

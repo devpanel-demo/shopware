@@ -81,12 +81,12 @@ jobs:
 
       - name: Set env to testing environment
         run: |
-          echo "IMAGE_TAG=devpanel/shopwarev3:develop" >> $GITHUB_ENV
+          echo "IMAGE_TAG=devpanel/shopware:develop" >> $GITHUB_ENV
 
       - name: Set env to production environment
         if: endsWith(github.ref, '/main')
         run: |
-          echo "IMAGE_TAG=devpanel/shopwarev3:main" >> $GITHUB_ENV
+          echo "IMAGE_TAG=devpanel/shopware:main" >> $GITHUB_ENV
 
       - name: Commit and push the container state to Docker Hub
         run: |
@@ -96,5 +96,5 @@ jobs:
       - name: Push to tag latest
         if: endsWith(github.ref, '/main')
         run: |
-          docker commit ${{ job.services.webserver.id }} devpanel/shopwarev3:latest
-          docker push devpanel/shopwarev3:latest
+          docker commit ${{ job.services.webserver.id }} devpanel/shopware:latest
+          docker push devpanel/shopware:latest
