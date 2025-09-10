@@ -31,18 +31,36 @@ fi
 
 cd $APP_ROOT
 cp -r $APP_ROOT/.devpanel/.gitignore $APP_ROOT/.gitignore
+#== Composer install.
+if [[ -f "composer.json" ]]; then
+  echo "> Install Dependencies";
+  composer install --no-interaction --optimize-autoloader
+fi
 
-echo ">>> Install Dependencies";
-composer install --no-interaction --optimize-autoloader
-
-echo ">>> Install Shopware Application";
+echo "> Install Shopware Application";
 bin/console system:install --basic-setup --force
 
-echo ">>> Add Devpanel Admin User";
-bin/console user:create devpanel --password=devpanel --email=developer@devpanel.com --firstName=DevPanel
-
-echo ">>> allow-plugins";
+echo "> allow-plugins";
 composer config --no-plugins allow-plugins.php-http/discovery true
 
-bin/console cache:clear
-echo ">>> Successful, please refresh your web page.";
+#== Extract static files
+if [[ -f "$APP_ROOT/.devpanel/dumps/files.tgz" ]]; then
+  echo  'Extract static files ...'
+  sudo mkdir -p public
+  sudo tar xzf "$APP_ROOT/.devpanel/dumps/files.tgz" -C public
+  sudo rm -rf $APP_ROOT/.devpanel/dumps/files.tgz
+fi
+
+#== Import mysql files
+if [[ -f "$APP_ROOT/.devpanel/dumps/db.sql.tgz" ]]; then
+  echo 'Import mysql file ...'
+  cd $APP_ROOT/.devpanel/dumps
+  tar -xvzf db.sql.tgz
+
+  mysql -h$DB_HOST -P$DB_PORT -u$DB_USER -p$DB_PASSWORD $DB_NAME < db.sql
+  mysql -h$DB_HOST -P$DB_PORT -u$DB_USER -p$DB_PASSWORD $DB_NAME -e "UPDATE sales_channel_domain SET url='https://$DP_HOSTNAME' WHERE url='http://localhost';"
+  rm -rf $APP_ROOT/.devpanel/dumps/*
+fi
+
+cd $APP_ROOT && bin/console cache:clear
+echo "> Successful, please refresh your web page.";
