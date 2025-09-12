@@ -30,6 +30,10 @@ fi
 cd $APP_ROOT
 cp -r $APP_ROOT/.devpanel/.gitignore $APP_ROOT/.gitignore
 
+#== Remove root-owned files.
+echo Remove root-owned files.
+sudo rm -rf lost+found/
+
 echo ">>> Install Dependencies";
 composer install --no-interaction --optimize-autoloader
 
