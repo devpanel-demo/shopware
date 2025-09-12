@@ -54,8 +54,9 @@ mysql $MYSQL_CONN $DB_NAME -e "
     private, uploaded_at, created_at, updated_at, path, config
   FROM media;"
 mysqldump $MYSQL_CONN \
-  --skip-triggers --no-create-info --no-tablespaces \
+  --quick --lock-tables=false --no-tablespaces --no-create-info \
   $DB_NAME tmp_table > $DUMPS_DIR/$TMP_FILE.sql
+
 sed -i 's/`tmp_table`/`media`/g' $DUMPS_DIR/$TMP_FILE.sql
 sed -i 's/INSERT INTO `media`/INSERT INTO `media` (`id`, `user_id`, `media_folder_id`, `mime_type`, `file_extension`, `file_size`, `meta_data`, `file_name`, `media_type`, `thumbnails_ro`, `private`, `uploaded_at`, `created_at`, `updated_at`, `path`, `config`)/g' $DUMPS_DIR/$TMP_FILE.sql
 cat $DUMPS_DIR/$TMP_FILE.sql >> $DUMPS_DIR/db.sql
@@ -74,8 +75,9 @@ mysql $MYSQL_CONN $DB_NAME -e "
     custom_fields, created_at, updated_at, document_a11y_media_file_id
   FROM document;"
 mysqldump $MYSQL_CONN \
-  --skip-triggers --no-create-info --no-tablespaces \
+  --quick --lock-tables=false --no-tablespaces --no-create-info \
   $DB_NAME tmp_table > $DUMPS_DIR/$TMP_FILE.sql
+
 sed -i 's/`tmp_table`/`document`/g' $DUMPS_DIR/$TMP_FILE.sql
 sed -i 's/INSERT INTO `document`/INSERT INTO `document` (`id`, `document_type_id`, `referenced_document_id`, `order_id`, `order_version_id`, `config`, `sent`, `static`, `deep_link_code`, `document_media_file_id`, `custom_fields`, `created_at`, `updated_at`, `document_a11y_media_file_id`)/g' $DUMPS_DIR/$TMP_FILE.sql
 cat $DUMPS_DIR/$TMP_FILE.sql >> $DUMPS_DIR/db.sql
@@ -96,8 +98,9 @@ mysql $MYSQL_CONN $DB_NAME -e "
     primary_order_transaction_id, primary_order_transaction_version_id, internal_comment, tax_calculation_type
   FROM \`order\`;"
 mysqldump $MYSQL_CONN \
-  --skip-triggers --no-create-info --no-tablespaces \
+  --quick --lock-tables=false --no-tablespaces --no-create-info \
   $DB_NAME tmp_table > $DUMPS_DIR/$TMP_FILE.sql
+
 sed -i 's/`tmp_table`/`order`/g' $DUMPS_DIR/$TMP_FILE.sql
 sed -i 's/INSERT INTO `order`/INSERT INTO `order` (id, version_id, state_id, auto_increment, order_number, currency_id, language_id, currency_factor, sales_channel_id, billing_address_id, billing_address_version_id, price, order_date_time, shipping_costs, deep_link_code, custom_fields, affiliate_code, campaign_code, customer_comment, created_at, updated_at, item_rounding, total_rounding, rule_ids, created_by_id, updated_by_id, source, primary_order_delivery_id, primary_order_delivery_version_id, primary_order_transaction_id, primary_order_transaction_version_id, internal_comment, tax_calculation_type)/g' $DUMPS_DIR/$TMP_FILE.sql
 cat $DUMPS_DIR/$TMP_FILE.sql >> $DUMPS_DIR/db.sql
@@ -115,8 +118,9 @@ mysql $MYSQL_CONN $DB_NAME -e "
     price, custom_fields, created_at, updated_at
   FROM order_delivery_position;"
 mysqldump $MYSQL_CONN \
-  --skip-triggers --no-create-info --no-tablespaces \
+  --quick --lock-tables=false --no-tablespaces --no-create-info \
   $DB_NAME tmp_table > $DUMPS_DIR/$TMP_FILE.sql
+
 sed -i 's/`tmp_table`/`order_delivery_position`/g' $DUMPS_DIR/$TMP_FILE.sql
 sed -i 's/INSERT INTO `order_delivery_position`/INSERT INTO `order_delivery_position` (id, version_id, order_delivery_id, order_delivery_version_id, order_line_item_id, order_line_item_version_id, price, custom_fields, created_at, updated_at)/g' $DUMPS_DIR/$TMP_FILE.sql
 cat $DUMPS_DIR/$TMP_FILE.sql >> $DUMPS_DIR/db.sql
@@ -135,8 +139,9 @@ mysql $MYSQL_CONN $DB_NAME -e "
     stackable, removable, good, position, custom_fields, created_at, updated_at, states
   FROM order_line_item;"
 mysqldump $MYSQL_CONN \
-  --skip-triggers --no-create-info --no-tablespaces \
+  --quick --lock-tables=false --no-tablespaces --no-create-info \
   $DB_NAME tmp_table > $DUMPS_DIR/$TMP_FILE.sql
+
 sed -i 's/`tmp_table`/`order_line_item`/g' $DUMPS_DIR/$TMP_FILE.sql
 sed -i 's/INSERT INTO `order_line_item`/INSERT INTO `order_line_item` (id, version_id, order_id, order_version_id, parent_id, parent_version_id, identifier, referenced_id, product_id, product_version_id, promotion_id, label, description, cover_id, quantity, type, payload, price_definition, price, stackable, removable, good, position, custom_fields, created_at, updated_at, states)/g' $DUMPS_DIR/$TMP_FILE.sql
 cat $DUMPS_DIR/$TMP_FILE.sql >> $DUMPS_DIR/db.sql
@@ -153,8 +158,9 @@ mysql $MYSQL_CONN $DB_NAME -e "
     id, language_id, keyword
   FROM product_keyword_dictionary;"
 mysqldump $MYSQL_CONN \
-  --skip-triggers --no-create-info --no-tablespaces \
+  --quick --lock-tables=false --no-tablespaces --no-create-info \
   $DB_NAME tmp_table > $DUMPS_DIR/$TMP_FILE.sql
+
 sed -i 's/`tmp_table`/`product_keyword_dictionary`/g' $DUMPS_DIR/$TMP_FILE.sql
 sed -i 's/INSERT INTO `product_keyword_dictionary`/INSERT INTO `product_keyword_dictionary` (id, language_id, keyword)/g' $DUMPS_DIR/$TMP_FILE.sql
 cat $DUMPS_DIR/$TMP_FILE.sql >> $DUMPS_DIR/db.sql
