@@ -171,7 +171,7 @@ du -h $DUMPS_DIR/db.sql
 
 echo -e "> Compress database"
 tar -czf "$DUMPS_DIR/db.sql.tgz" -C $DUMPS_DIR db.sql
-rm -rf $DUMPS_DIR/db.sql $DUMPS_DIR/tmp_file.sql
+# rm -rf $DUMPS_DIR/db.sql $DUMPS_DIR/tmp_file.sql
 
 # Step 2 - Compress static files
 mkdir -p $APP_ROOT/.devpanel/dumps
