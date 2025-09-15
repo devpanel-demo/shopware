@@ -16,7 +16,9 @@
 # ----------------------------------------------------------------------
 
 #== Import database
+echo 'Import 1'
 if [[ $(mysql -h$DB_HOST -P$DB_PORT -u$DB_USER -p$DB_PASSWORD $DB_NAME -e "show tables;") == '' ]]; then
+  echo 'Import 1.1'
   if [[ -f "$APP_ROOT/.devpanel/dumps/db.sql.tgz" ]]; then
     echo 'Import mysql file ...'
     cd $APP_ROOT/.devpanel/dumps
@@ -27,6 +29,7 @@ if [[ $(mysql -h$DB_HOST -P$DB_PORT -u$DB_USER -p$DB_PASSWORD $DB_NAME -e "show 
     # rm -rf $APP_ROOT/.devpanel/dumps/*
   fi
 fi
+echo 'Import 2'
 
 if [[ -n "$DB_SYNC_VOL" ]]; then
   if [[ ! -f "/var/www/build/.devpanel/init-container.sh" ]]; then
