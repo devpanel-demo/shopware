@@ -169,8 +169,16 @@ cat $DUMPS_DIR/$TMP_FILE.sql >> $DUMPS_DIR/db.sql
 sed -i 's/INSERT INTO/INSERT IGNORE INTO/g' $DUMPS_DIR/db.sql
 du -h $DUMPS_DIR/db.sql
 
+echo 'sales_channel_domain'
+mysql -h"$DB_HOST" -P"$DB_PORT" -u"$DB_USER" -p"$DB_PASSWORD" "$DB_NAME" \
+  -e "SELECT * FROM sales_channel_domain;"
+
 echo -e "> Compress database"
 tar -czf "$DUMPS_DIR/db.sql.tgz" -C $DUMPS_DIR db.sql
+echo 'ls -la DUMPS_DIR'
+ls -la $DUMPS_DIR
+echo 'ls -la APP_ROOT'
+ls -la $APP_ROOT
 # rm -rf $DUMPS_DIR/db.sql $DUMPS_DIR/tmp_file.sql
 
 # Step 2 - Compress static files
