@@ -61,6 +61,9 @@ if [[ -f "$APP_ROOT/.devpanel/dumps/db.sql.tgz" ]]; then
   mysql -h$DB_HOST -P$DB_PORT -u$DB_USER -p$DB_PASSWORD $DB_NAME -e "UPDATE sales_channel_domain SET url='https://$DP_HOSTNAME' WHERE url='http://localhost' OR url='https://localhost';"
   rm -rf $APP_ROOT/.devpanel/dumps/*
 fi
+mysql -h"$DB_HOST" -P"$DB_PORT" -u"$DB_USER" -p"$DB_PASSWORD" "$DB_NAME" -e "
+  UPDATE sales_channel_domain
+  SET url = REPLACE(url, 'http://', 'https://');"
 
 cd $APP_ROOT && bin/console cache:clear
 echo "> Successful, please refresh your web page.";
