@@ -46,7 +46,7 @@ bin/console user:create devpanel --password=devpanel --email=developer@devpanel.
 echo ">>> allow-plugins";
 composer config --no-plugins allow-plugins.php-http/discovery true
 
-mysql -h$DB_HOST -P$DB_PORT -u$DB_USER -p$DB_PASSWORD $DB_NAME -e "UPDATE sales_channel_domain SET url='https://$DP_HOSTNAME' WHERE url='http://localhost' OR url='https://localhost';"
+# mysql -h$DB_HOST -P$DB_PORT -u$DB_USER -p$DB_PASSWORD $DB_NAME -e "UPDATE sales_channel_domain SET url='https://$DP_HOSTNAME' WHERE url='http://localhost' OR url='https://localhost';"
 mysql -h"$DB_HOST" -P"$DB_PORT" -u"$DB_USER" -p"$DB_PASSWORD" "$DB_NAME" -e "
   UPDATE sales_channel_domain
   SET url = REPLACE(url, 'http://', 'https://');"
