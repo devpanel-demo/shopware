@@ -52,4 +52,5 @@ mysql -h"$DB_HOST" -P"$DB_PORT" -u"$DB_USER" -p"$DB_PASSWORD" "$DB_NAME" -e "
   SET url = REPLACE(url, 'http://', 'https://');"
 
 bin/console cache:clear
+bin/console cache:warmup
 echo ">>> Successful, please refresh your web page.";
