@@ -65,7 +65,6 @@ jobs:
             sudo mkdir -p /etc/mysql/conf.d
             echo "[client]" | sudo tee /etc/mysql/conf.d/no-ssl.cnf
             echo "skip-ssl" | sudo tee -a /etc/mysql/conf.d/no-ssl.cnf
-            echo "ssl-mode=DISABLED" | sudo tee -a /etc/mysql/conf.d/no-ssl.cnf
           '
 
       - name: Setup Shopware
