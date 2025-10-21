@@ -65,5 +65,5 @@ mysql -h"$DB_HOST" -P"$DB_PORT" -u"$DB_USER" -p"$DB_PASSWORD" "$DB_NAME" -e "
   UPDATE sales_channel_domain
   SET url = REPLACE(url, 'http://', 'https://');"
 
-cd $APP_ROOT && bin/console cache:clear
+cd $APP_ROOT && bin/console cache:clear && bin/console cache:warmup
 echo "> Successful, please refresh your web page.";
