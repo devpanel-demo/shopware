@@ -62,9 +62,10 @@ jobs:
       - name: Disable SSL in MySQL service
         run: |
           docker exec ${{ job.services.webserver.id }} bash -c '
-            mkdir -p /etc/mysql/conf.d
-            echo "[client]\nskip-ssl" > /etc/mysql/conf.d/no-ssl.cnf
-            echo "[client]\nssl-mode=DISABLED" >> /etc/mysql/conf.d/no-ssl.cnf
+            sudo mkdir -p /etc/mysql/conf.d
+            echo "[client]" | sudo tee /etc/mysql/conf.d/no-ssl.cnf
+            echo "skip-ssl" | sudo tee -a /etc/mysql/conf.d/no-ssl.cnf
+            echo "ssl-mode=DISABLED" | sudo tee -a /etc/mysql/conf.d/no-ssl.cnf
           '
 
       - name: Setup Shopware
