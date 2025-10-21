@@ -59,6 +59,12 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v4
 
+      - name: Disable SSL in MySQL service
+        run: |
+          docker exec ${{ job.services.mysql.id }} bash -c 'echo "[client]\nskip-ssl" > /etc/mysql/conf.d/no-ssl.cnf'
+          docker exec ${{ job.services.mysql.id }} bash -c 'echo "[mysqld]\nskip_ssl" >> /etc/mysql/conf.d/no-ssl.cnf'
+          docker restart ${{ job.services.mysql.id }}
+
       - name: Setup Shopware
         run: |
           echo "PREPARE DIR FOR INSTALL"
