@@ -34,17 +34,14 @@ cp -r $APP_ROOT/.devpanel/.gitignore $APP_ROOT/.gitignore
 echo Remove root-owned files.
 sudo rm -rf lost+found/
 
-echo ">>> Install Dependencies";
+echo "> Install Dependencies";
 composer install --no-interaction --optimize-autoloader
 
-echo ">>> Install Shopware Application";
+echo "> Install Shopware Application";
 bin/console system:install --basic-setup --force
 
-echo ">>> Add Devpanel Admin User";
+echo "> Add Devpanel Admin User";
 bin/console user:create devpanel --password=devpanel --email=developer@devpanel.com --firstName=DevPanel
-
-echo ">>> allow-plugins";
-composer config --no-plugins allow-plugins.php-http/discovery true
 
 # mysql -h$DB_HOST -P$DB_PORT -u$DB_USER -p$DB_PASSWORD $DB_NAME -e "UPDATE sales_channel_domain SET url='https://$DP_HOSTNAME' WHERE url='http://localhost' OR url='https://localhost';"
 mysql -h"$DB_HOST" -P"$DB_PORT" -u"$DB_USER" -p"$DB_PASSWORD" "$DB_NAME" -e "
@@ -53,4 +50,4 @@ mysql -h"$DB_HOST" -P"$DB_PORT" -u"$DB_USER" -p"$DB_PASSWORD" "$DB_NAME" -e "
 
 bin/console cache:clear
 bin/console cache:warmup
-echo ">>> Successful, please refresh your web page.";
+echo "> Successful, please refresh your web page.";
